@@ -14,7 +14,7 @@ WORKDIR /opt/datatools-server
 
 VOLUME /root/.m2
 
-ADD ./config/*.yml /config/
+ADD ./config/* /config/
 
 COPY /config/env.yml /opt/datatools-server/configurations/default/env.yml
 COPY /config/server.yml /opt/datatools-server/configurations/default/server.yml
