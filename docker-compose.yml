@@ -1,0 +1,72 @@
+# docker-compose build && docker-compose up
+
+version: "3"
+
+networks:
+  napote:
+
+volumes:
+  datatools_postgis:
+  datatools_postgis_dbbackups:
+
+services:
+  datatools-ui:
+    container_name: datatools-ui
+    build:
+      context: ./datatools-ui/
+    networks:
+      - napote
+    links:
+      - datatools-server
+    depends_on:
+      - datatools-server
+
+  datatools-server:
+    container_name: datatools-server
+    build: ./datatools-server/
+    environment:
+        - AWS_REGION=us-west-2 
+    networks:
+      - napote
+    links:
+      - datatools-mongodb:mongo
+      - datatools-postgis:postgis
+    depends_on:
+      - datatools-mongodb
+      - datatools-postgis
+
+  datatools-mongodb:
+    container_name: datatools-mongodb
+    image: mongo:latest
+    networks:
+      - napote
+    ports:
+      - "27017:27017"
+    command: mongod --dbpath /data/db --nojournal --oplogSize 16 --noauth
+
+  datatools-nginx:
+    restart: always
+    container_name: datatools-nginx
+    build: ./nginx/
+    networks:
+      - napote
+    links:
+      - datatools-server
+      - datatools-ui
+    ports:
+      - "8081:8081"
+
+  datatools-postgis:
+    container_name: datatools-postgis
+    image: kartoza/postgis:9.6-2.4
+    volumes:
+      - datatools_postgis:/var/lib/postgresql
+      - datatools_postgis_dbbackups:/backups
+    environment:
+      - POSTGRES_DB=gtfs_storage_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASS=postgres
+      - ALLOW_IP_RANGE=0.0.0.0/0
+      - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
+    networks:
+      - napote  

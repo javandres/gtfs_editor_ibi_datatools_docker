@@ -1,0 +1,6 @@
+.idea/
+datatools-server/config/auth.pem
+datatools-server/config/env.yml
+datatools-server/config/server.yml
+datatools-ui/config/env.yml
+datatools-ui/config/settings.yml
