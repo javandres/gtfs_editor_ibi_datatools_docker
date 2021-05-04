@@ -20,6 +20,8 @@ services:
       - datatools-server
     depends_on:
       - datatools-server
+    ports:
+      - "9966:9966"  
 
   datatools-server:
     container_name: datatools-server
@@ -34,6 +36,8 @@ services:
     depends_on:
       - datatools-mongodb
       - datatools-postgis
+    ports:
+      - "4000:4000"
 
   datatools-mongodb:
     container_name: datatools-mongodb
@@ -54,7 +58,7 @@ services:
       - datatools-server
       - datatools-ui
     ports:
-      - "8081:8081"
+      - "8080:8081"
 
   datatools-postgis:
     container_name: datatools-postgis
