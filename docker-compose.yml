@@ -45,8 +45,8 @@ services:
     networks:
       - napote
     ports:
-      - "27017:27017"
-    command: mongod --dbpath /data/db --nojournal --oplogSize 16 --noauth
+      - "127.0.0.1:27117:27117"
+    command: mongod --dbpath /data/db --nojournal --oplogSize 16 --noauth --port 27117
 
   datatools-nginx:
     restart: always

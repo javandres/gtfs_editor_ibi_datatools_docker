@@ -9,7 +9,8 @@ RUN apt-get update && \
 
 RUN npm i -g serve
 
-RUN  git clone -b 'v4.1.0' --single-branch https://github.com/ibi-group/datatools-ui.git /opt/datatools-ui
+#RUN  git clone -b 'v4.1.0' --single-branch https://github.com/ibi-group/datatools-ui.git /opt/datatools-ui
+RUN git clone https://github.com/wkulesza/datatools-ui.git /opt/datatools-ui
 
 WORKDIR /opt/datatools-ui
 
