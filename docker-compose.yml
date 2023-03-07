@@ -21,13 +21,13 @@ services:
     depends_on:
       - datatools-server
     ports:
-      - "9966:9966"  
+      - "9966:9966"
 
   datatools-server:
     container_name: datatools-server
     build: ./datatools-server/
     environment:
-        - AWS_REGION=us-west-2 
+        - AWS_REGION=us-west-2
     networks:
       - napote
     links:
@@ -58,7 +58,7 @@ services:
       - datatools-server
       - datatools-ui
     ports:
-      - "8080:8081"
+      - "8888:8081"
 
   datatools-postgis:
     container_name: datatools-postgis
@@ -73,4 +73,6 @@ services:
       - ALLOW_IP_RANGE=0.0.0.0/0
       - POSTGRES_MULTIPLE_EXTENSIONS=postgis,hstore,postgis_topology,postgis_raster,pgrouting
     networks:
-      - napote  
+      - napote
+    ports:
+      - "127.0.0.1:5432:5432"
